@@ -15,9 +15,97 @@
           }
         }
       }
-    }
+    }<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Courier+Prime&display=swap" rel="stylesheet">
   </script>
-</head>
+</style><style>
+  /* Dark, Cinematic Film Noir Theme */
+  body {
+    background: radial-gradient(circle at center, #1a1a24 0%, #08080c 100%);
+    color: #e0e0e0;
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Dramatic Glowing Title */
+  h1 {
+    font-size: 3rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #ffffff 0%, #a8a8a8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    margin-top: 40px;
+  }
+
+  /* Movie Poster / Script Card Layout */
+  .container {
+    background: rgba(18, 18, 24, 0.75);
+    border: 1px solid rgba(255, 215, 0, 0.15); /* Subtile Gold Trim */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 69, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 650px;
+    width: 90%;
+    margin: 20px auto;
+  }
+
+  /* High-Contrast Inputs */
+  textarea, input, select {
+    background: #0d0d12;
+    border: 1px solid #333344;
+    color: #fff;
+    padding: 14px;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  textarea:focus, input:focus {
+    border-color: #ff3344;
+    outline: none;
+    box-shadow: 0 0 12px rgba(255, 51, 68, 0.4);
+  }
+
+  /* Action Buttons (Action Red / Hollywood Gold) */
+  .btn-generate {
+    background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.6);
+  }
+
+  /* VIP Credit Badge */
+  .credit-badge {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    color: #ffd700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+</style>
 <body class="bg-zinc-950 text-zinc-100 min-h-screen font-sans flex flex-col items-center">
 
   <!-- Header -->
