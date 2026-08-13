@@ -1,299 +1,303 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plot Twist | The AI Interactive Series</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: { 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9' }
-          }
-        }
-      }
-    }<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Courier+Prime&display=swap" rel="stylesheet">
-  </script>
-</style><style>
-  /* Dark, Cinematic Film Noir Theme */
-  body {
-    background: radial-gradient(circle at center, #1a1a24 0%, #08080c 100%);
-    color: #e0e0e0;
-    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  <title>PLOT TWIST | The AI Story Generator for Filmmakers</title>
+  
+  <!-- High-Definition Hollywood Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@300;400;700;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-  /* Dramatic Glowing Title */
-  h1 {
-    font-size: 3rem;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    background: linear-gradient(180deg, #ffffff 0%, #a8a8a8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-    margin-top: 40px;
-  }
+  <style>
+    :root {
+      --gold: #FFD700;
+      --gold-glow: rgba(255, 215, 0, 0.4);
+      --hollywood-red: #E50914;
+      --red-glow: rgba(229, 9, 20, 0.6);
+      --bg-dark: #050508;
+    }
 
-  /* Movie Poster / Script Card Layout */
-  .container {
-    background: rgba(18, 18, 24, 0.75);
-    border: 1px solid rgba(255, 215, 0, 0.15); /* Subtile Gold Trim */
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 69, 0, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 40px;
-    max-width: 650px;
-    width: 90%;
-    margin: 20px auto;
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  /* High-Contrast Inputs */
-  textarea, input, select {
-    background: #0d0d12;
-    border: 1px solid #333344;
-    color: #fff;
-    padding: 14px;
-    border-radius: 6px;
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-  }
+    body {
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* HD Atmospheric Film Still Background */
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(229, 9, 20, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(5,5,8,0.7) 0%, rgba(5,5,8,0.95) 100%),
+        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
 
-  textarea:focus, input:focus {
-    border-color: #ff3344;
-    outline: none;
-    box-shadow: 0 0 12px rgba(255, 51, 68, 0.4);
-  }
+    /* Top Navigation Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 8%;
+      background: rgba(5, 5, 8, 0.6);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-  /* Action Buttons (Action Red / Hollywood Gold) */
-  .btn-generate {
-    background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
-    color: white;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    padding: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+    .brand-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: 6px;
+      color: #FFF;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
 
-  .btn-generate:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.6);
-  }
+    .brand-logo span {
+      color: var(--hollywood-red);
+      text-shadow: 0 0 20px var(--red-glow);
+    }
 
-  /* VIP Credit Badge */
-  .credit-badge {
-    background: rgba(255, 215, 0, 0.1);
-    border: 1px solid rgba(255, 215, 0, 0.4);
-    color: #ffd700;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-  }
-</style>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen font-sans flex flex-col items-center">
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 
-  <!-- Header -->
-  <header class="w-full max-w-4xl px-4 py-4 border-b border-zinc-800 flex justify-between items-center">
-    <div class="flex items-center gap-2">
-      <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center font-black text-xl">⚡</div>
-      <h1 class="font-bold text-xl tracking-wider text-white">PLOT<span class="text-brand-500">TWIST</span></h1>
+    .credit-badge {
+      background: rgba(255, 215, 0, 0.08);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      box-shadow: 0 0 15px var(--gold-glow);
+      text-transform: uppercase;
+    }
+
+    .btn-buy {
+      background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+      color: #FFF;
+      text-decoration: none;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .btn-buy:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(40, 167, 69, 0.7);
+    }
+
+    /* Main Container */
+    .hero-container {
+      max-width: 900px;
+      margin: 60px auto 100px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 15px;
+      background: linear-gradient(180deg, #FFFFFF 30%, #888888 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      drop-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: #A0A0B0;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    /* Glossy Glassmorphic Card */
+    .studio-card {
+      background: rgba(15, 15, 22, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(25px);
+      box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(229, 9, 20, 0.1);
+      position: relative;
+    }
+
+    .input-group {
+      margin-bottom: 30px;
+      text-align: left;
+    }
+
+    <a href="https://buy.stripe.com/test_8x2fZj0uE5SXd83gg7frW00" target="_blank" class="btn-buy">💳 Get 50 Credits</a>
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      background: rgba(5, 5, 8, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 18px;
+      color: #FFF;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      resize: none;
+      transition: all 0.3s ease;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--hollywood-red);
+      box-shadow: 0 0 20px var(--red-glow);
+    }
+
+    .btn-generate {
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(135deg, #E50914 0%, #8B0000 100%);
+      border: none;
+      border-radius: 12px;
+      color: #FFF;
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 10px 30px var(--red-glow);
+      transition: all 0.3s ease;
+    }
+
+    .btn-generate:hover {
+      transform: scale(1.02);
+      box-shadow: 0 15px 40px rgba(229, 9, 20, 0.9);
+    }
+
+    /* Screenplay Output Card */
+    .screenplay-output {
+      margin-top: 40px;
+      background: #FDFBF7; /* Authentic Screenplay Paper */
+      color: #111;
+      padding: 40px;
+      border-radius: 8px;
+      font-family: 'Courier Prime', monospace;
+      text-align: left;
+      line-height: 1.6;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+      display: none; /* Shown dynamically via JS */
+    }
+
+    .screenplay-header {
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 2px solid #111;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="brand-logo">PLOT<span>TWIST</span></div>
+    <div class="nav-actions">
+      <div class="credit-badge">⚡ Credits: <span id="user-credits">5</span></div>
+      <a href="YOUR_STRIPE_LINK_HERE" target="_blank" class="btn-buy">💳 Get 50 Credits</a>
     </div>
-    <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-xs px-3 py-1 rounded-full font-mono animate-pulse">
-      LIVE VOTING
-    </span>
   </header>
-<a href="https://buy.stripe.com/test_8x2fZj0uE5SXd83gg7frW00" target="_blank" style="background-color: #28a745; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px 0;">
-  💳 Get 50 More Credits ($2.99)
-</a>
-  <!-- Main Content container -->
-  <main class="w-full max-w-4xl p-4 space-y-6">
 
-    <!-- Video Player & Premise -->
-    <section class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl">
-      <div class="relative aspect-video bg-black">
-        <video id="episode-video" controls class="w-full h-full object-cover">
-          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-        </video>
-        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-md text-xs font-semibold">
-          S1 : E4 &bull; <span id="ep-title">The Boardroom Betrayal</span>
-        </div>
-      </div>
-      <div class="p-5 space-y-3">
-        <h2 class="text-lg font-bold text-zinc-200">Today's Cliffhanger</h2>
-        <p id="ep-premise" class="text-sm text-zinc-400 leading-relaxed">
-          CEO Mark accidentally sends a self-destruct financial report live on the global stream. His AI assistant, NOVA, locks the doors.
-        </p>
-        <div class="flex items-center justify-between pt-2 border-t border-zinc-800/80 text-xs text-zinc-500">
-          <span>Voting closes in: <strong class="text-brand-500 font-mono" id="timer">02:14:55</strong></span>
-          <span>Top submission gets animated tomorrow!</span>
-        </div>
-      </div>
-    </section>
+  <!-- Hero Content Area -->
+  <div class="hero-container">
+    <h1 class="hero-title">Unscripted Brilliance</h1>
+    <p class="hero-subtitle">The AI Twist Engine Built For Screenwriters & Producers</p>
 
-    <!-- Submission Form -->
-    <section class="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 space-y-4">
-      <h3 class="text-md font-bold text-zinc-200 flex items-center gap-2">
-        <span>✍️</span> Pitch Your Plot Twist
-      </h3>
-      <form id="twist-form" class="space-y-3">
-        <input type="text" id="author-input" placeholder="Your Handle (e.g. @writer_x)" required 
-          class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-brand-500 text-zinc-200">
-        <textarea id="twist-input" rows="3" placeholder="What happens next? Make it unexpected..." required
-          class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-4 text-sm focus:outline-none focus:border-brand-500 text-zinc-200 resize-none"></textarea>
-        <button type="submit" 
-          class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-2.5 rounded-lg text-sm transition duration-200 shadow-lg shadow-brand-600/20">
-          Submit to Community Pool
-        </button>
-      </form>
-    </section>
-
-    <!-- AI Director Section -->
-    <section class="bg-zinc-900/90 border border-brand-500/30 rounded-2xl p-5 space-y-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <h3 class="text-md font-bold text-zinc-100 flex items-center gap-2">
-            <span>🎬</span> AI Script Compiler
-          </h3>
-          <p class="text-xs text-zinc-400">Compile today's top voted plot twist into tomorrow's script.</p>
-        </div>
-        <button onclick="compileWinnerScript()" id="compile-btn"
-          class="bg-zinc-100 hover:bg-white text-zinc-950 font-bold px-4 py-2 rounded-lg text-xs transition">
-          Generate Script
-        </button>
+    <div class="studio-card">
+      <div class="input-group">
+        <label class="input-label">Pitch / Scene Setup</label>
+        <textarea id="prompt-input" placeholder="e.g., A detective uncovers a locked safe in a sunken submarine, but inside is a recent photograph of himself..."></textarea>
       </div>
 
-      <div id="ai-output" class="hidden bg-zinc-950 border border-zinc-800 rounded-xl p-4 font-mono text-xs text-brand-500 whitespace-pre-wrap leading-relaxed">
-        <!-- Script loads here -->
-      </div>
-    </section>
+      <button class="btn-generate" onclick="generateTwist()">⚡ GENERATE BLOCKBUSTER TWIST</button>
 
-    <!-- Leaderboard -->
-    <section class="space-y-3">
-      <div class="flex justify-between items-center px-1">
-        <h3 class="text-md font-bold text-zinc-200">Leaderboard</h3>
-        <span class="text-xs text-zinc-500">Sorted by Upvotes</span>
+      <!-- Output Display Box -->
+      <div id="output-box" class="screenplay-output">
+        <div class="screenplay-header">EXT. HOLLYWOOD SOUNDSTAGE - NIGHT</div>
+        <p id="output-text">Your script plot twist will appear here in authentic screenplay format...</p>
       </div>
-      <div id="twists-list" class="space-y-3">
-        <!-- Dynamic Cards Inserted Here -->
-      </div>
-    </section>
-
-  </main>
+    </div>
+  </div>
 
   <script>
-    const API_BASE = "https://plot-twist-3csj.onrender.com/api";
+    // Paste your standard endpoint JavaScript logic here
+    async function generateTwist() {
+      const prompt = document.getElementById('prompt-input').value;
+      const outputBox = document.getElementById('output-box');
+      const outputText = document.getElementById('output-text');
 
-    let localTwists = [];
-
-    async function loadTwists() {
-      try {
-        const res = await fetch(`${API_BASE}/twists`);
-        if (res.ok) {
-          localTwists = await res.json();
-        }
-      } catch (e) {
-        console.warn("Backend not detected.");
+      if (!prompt) {
+        alert("Please enter a scene setup first!");
+        return;
       }
-      renderTwists();
-    }
 
-    function renderTwists() {
-      const container = document.getElementById("twists-list");
-      container.innerHTML = "";
+      outputBox.style.display = "block";
+      outputText.innerText = "CRAFTING CINEMATIC TWIST...";
 
-      localTwists.forEach((item) => {
-        const card = document.createElement("div");
-        card.className = "bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-start justify-between gap-4";
-        card.innerHTML = `
-          <div class="space-y-1">
-            <span class="text-xs text-brand-500 font-mono">${item.author}</span>
-            <p class="text-sm text-zinc-300 leading-snug">${item.twist}</p>
-          </div>
-          <button onclick="toggleVote('${item.id}')" class="flex flex-col items-center justify-center min-w-[50px] p-2 rounded-lg border ${item.voted_by_user ? 'bg-brand-600/20 border-brand-500 text-brand-500' : 'bg-zinc-950 border-zinc-800 text-zinc-400'} hover:border-brand-500 transition">
-            <span class="text-xs">▲</span>
-            <span class="text-xs font-bold font-mono">${item.votes}</span>
-          </button>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    async function toggleVote(id) {
       try {
-        const res = await fetch(`${API_BASE}/vote`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ submission_id: id })
+        const response = await fetch('https://plot-twist-3csj.onrender.com/api/generate-script', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: prompt })
         });
-        if (res.ok) {
-          await loadTwists();
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
 
-    async function compileWinnerScript() {
-      const btn = document.getElementById("compile-btn");
-      const output = document.getElementById("ai-output");
-      btn.innerText = "Compiling...";
-      btn.disabled = true;
-
-      try {
-        const res = await fetch(`${API_BASE}/ai/compile-winner`, { method: "POST" });
-        const data = await res.json();
-        if (res.ok) {
-          output.classList.remove("hidden");
-          output.innerText = data.generated_script;
+        const data = await response.json();
+        if (data.twist) {
+          outputText.innerText = data.twist;
         } else {
-          alert(data.detail || "Error generating script.");
+          outputText.innerText = "Scene twist generated. Check your console/database output.";
         }
-      } catch (e) {
-        alert("Make sure your backend server is running!");
-      } finally {
-        btn.innerText = "Generate Script";
-        btn.disabled = false;
+      } catch (err) {
+        outputText.innerText = "Error generating twist. Ensure backend is active.";
       }
     }
-
-    document.getElementById("twist-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const author = document.getElementById("author-input").value;
-      const twist = document.getElementById("twist-input").value;
-
-      try {
-        const res = await fetch(`${API_BASE}/twists`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ author, twist })
-        });
-        if (res.ok) {
-          await loadTwists();
-        }
-      } catch (e) {
-        console.error(e);
-      }
-
-      document.getElementById("twist-input").value = "";
-    });
-
-    loadTwists();
   </script>
 </body>
 </html>
