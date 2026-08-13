@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plot Twist | The AI Interactive Series</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen font-sans flex flex-col items-center">
+
+  <!-- Header -->
+  <header class="w-full max-w-4xl px-4 py-4 border-b border-zinc-800 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center font-black text-xl">⚡</div>
+      <h1 class="font-bold text-xl tracking-wider text-white">PLOT<span class="text-brand-500">TWIST</span></h1>
+    </div>
+    <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-xs px-3 py-1 rounded-full font-mono animate-pulse">
+      LIVE VOTING
+    </span>
+  </header>
+
+  <!-- Main Content container -->
+  <main class="w-full max-w-4xl p-4 space-y-6">
+
+    <!-- Video Player & Premise -->
+    <section class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="relative aspect-video bg-black">
+        <video id="episode-video" controls class="w-full h-full object-cover">
+          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+        </video>
+        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-md text-xs font-semibold">
+          S1 : E4 &bull; <span id="ep-title">The Boardroom Betrayal</span>
+        </div>
+      </div>
+      <div class="p-5 space-y-3">
+        <h2 class="text-lg font-bold text-zinc-200">Today's Cliffhanger</h2>
+        <p id="ep-premise" class="text-sm text-zinc-400 leading-relaxed">
+          CEO Mark accidentally sends a self-destruct financial report live on the global stream. His AI assistant, NOVA, locks the doors.
+        </p>
+        <div class="flex items-center justify-between pt-2 border-t border-zinc-800/80 text-xs text-zinc-500">
+          <span>Voting closes in: <strong class="text-brand-500 font-mono" id="timer">02:14:55</strong></span>
+          <span>Top submission gets animated tomorrow!</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Submission Form -->
+    <section class="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 space-y-4">
+      <h3 class="text-md font-bold text-zinc-200 flex items-center gap-2">
+        <span>✍️</span> Pitch Your Plot Twist
+      </h3>
+      <form id="twist-form" class="space-y-3">
+        <input type="text" id="author-input" placeholder="Your Handle (e.g. @writer_x)" required 
+          class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-brand-500 text-zinc-200">
+        <textarea id="twist-input" rows="3" placeholder="What happens next? Make it unexpected..." required
+          class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-4 text-sm focus:outline-none focus:border-brand-500 text-zinc-200 resize-none"></textarea>
+        <button type="submit" 
+          class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-2.5 rounded-lg text-sm transition duration-200 shadow-lg shadow-brand-600/20">
+          Submit to Community Pool
+        </button>
+      </form>
+    </section>
+
+    <!-- AI Director Section -->
+    <section class="bg-zinc-900/90 border border-brand-500/30 rounded-2xl p-5 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-md font-bold text-zinc-100 flex items-center gap-2">
+            <span>🎬</span> AI Script Compiler
+          </h3>
+          <p class="text-xs text-zinc-400">Compile today's top voted plot twist into tomorrow's script.</p>
+        </div>
+        <button onclick="compileWinnerScript()" id="compile-btn"
+          class="bg-zinc-100 hover:bg-white text-zinc-950 font-bold px-4 py-2 rounded-lg text-xs transition">
+          Generate Script
+        </button>
+      </div>
+
+      <div id="ai-output" class="hidden bg-zinc-950 border border-zinc-800 rounded-xl p-4 font-mono text-xs text-brand-500 whitespace-pre-wrap leading-relaxed">
+        <!-- Script loads here -->
+      </div>
+    </section>
+
+    <!-- Leaderboard -->
+    <section class="space-y-3">
+      <div class="flex justify-between items-center px-1">
+        <h3 class="text-md font-bold text-zinc-200">Leaderboard</h3>
+        <span class="text-xs text-zinc-500">Sorted by Upvotes</span>
+      </div>
+      <div id="twists-list" class="space-y-3">
+        <!-- Dynamic Cards Inserted Here -->
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:8000/api";
+
+    let localTwists = [];
+
+    async function loadTwists() {
+      try {
+        const res = await fetch(`${API_BASE}/twists`);
+        if (res.ok) {
+          localTwists = await res.json();
+        }
+      } catch (e) {
+        console.warn("Backend not detected.");
+      }
+      renderTwists();
+    }
+
+    function renderTwists() {
+      const container = document.getElementById("twists-list");
+      container.innerHTML = "";
+
+      localTwists.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-start justify-between gap-4";
+        card.innerHTML = `
+          <div class="space-y-1">
+            <span class="text-xs text-brand-500 font-mono">${item.author}</span>
+            <p class="text-sm text-zinc-300 leading-snug">${item.twist}</p>
+          </div>
+          <button onclick="toggleVote('${item.id}')" class="flex flex-col items-center justify-center min-w-[50px] p-2 rounded-lg border ${item.voted_by_user ? 'bg-brand-600/20 border-brand-500 text-brand-500' : 'bg-zinc-950 border-zinc-800 text-zinc-400'} hover:border-brand-500 transition">
+            <span class="text-xs">▲</span>
+            <span class="text-xs font-bold font-mono">${item.votes}</span>
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    async function toggleVote(id) {
+      try {
+        const res = await fetch(`${API_BASE}/vote`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ submission_id: id })
+        });
+        if (res.ok) {
+          await loadTwists();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function compileWinnerScript() {
+      const btn = document.getElementById("compile-btn");
+      const output = document.getElementById("ai-output");
+      btn.innerText = "Compiling...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`${API_BASE}/ai/compile-winner`, { method: "POST" });
+        const data = await res.json();
+        if (res.ok) {
+          output.classList.remove("hidden");
+          output.innerText = data.generated_script;
+        } else {
+          alert(data.detail || "Error generating script.");
+        }
+      } catch (e) {
+        alert("Make sure your backend server is running!");
+      } finally {
+        btn.innerText = "Generate Script";
+        btn.disabled = false;
+      }
+    }
+
+    document.getElementById("twist-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const author = document.getElementById("author-input").value;
+      const twist = document.getElementById("twist-input").value;
+
+      try {
+        const res = await fetch(`${API_BASE}/twists`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ author, twist })
+        });
+        if (res.ok) {
+          await loadTwists();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      document.getElementById("twist-input").value = "";
+    });
+
+    loadTwists();
+  </script>
+</body>
+</html>
