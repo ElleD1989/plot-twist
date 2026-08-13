@@ -1,303 +1,1361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLOT TWIST | The AI Story Generator for Filmmakers</title>
-  
-  <!-- High-Definition Hollywood Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@300;400;700;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlotTwist — The AI Twist Engine</title>
 
-  <style>
-    :root {
-      --gold: #FFD700;
-      --gold-glow: rgba(255, 215, 0, 0.4);
-      --hollywood-red: #E50914;
-      --red-glow: rgba(229, 9, 20, 0.6);
-      --bg-dark: #050508;
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
+
+:root {
+    --black: #050506;
+    --black2: #0b0b0e;
+    --gold: #d6b36a;
+    --gold-light: #f2d89b;
+    --white: #f7f5ef;
+    --muted: #9a9893;
+    --line: rgba(255,255,255,.10);
+    --glass: rgba(255,255,255,.055);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--black);
+    color: var(--white);
+    font-family: Inter, sans-serif;
+    overflow-x: hidden;
+}
+
+/* =========================
+   CINEMATIC ATMOSPHERE
+========================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: .08;
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            transparent 0,
+            rgba(255,255,255,.5) 1px,
+            transparent 2px
+        );
+    background-size: 5px 5px;
+    mix-blend-mode: overlay;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 998;
+    background:
+        radial-gradient(circle at 50% 30%, transparent 0%, rgba(0,0,0,.35) 70%, rgba(0,0,0,.9) 100%);
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 82px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5vw;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,.75),
+        transparent
+    );
+    backdrop-filter: blur(8px);
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 900;
+    letter-spacing: -.8px;
+}
+
+.logo span {
+    color: var(--gold);
+}
+
+.nav-links {
+    display: flex;
+    gap: 34px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #bbb9b4;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+.nav-cta {
+    padding: 12px 20px;
+    border: 1px solid rgba(214,179,106,.5);
+    color: var(--gold-light) !important;
+    border-radius: 999px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 120px 5vw 80px;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(139,100,35,.18),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 15% 80%,
+            rgba(87,37,13,.18),
+            transparent 30%
+        ),
+        #050506;
+}
+
+.hero-light {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(214,179,106,.16),
+        rgba(214,179,106,.04) 35%,
+        transparent 70%
+    );
+    animation: breathe 7s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%,100% {
+        transform: scale(.95);
+        opacity: .65;
+    }
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+}
+
+.light-beam {
+    position: absolute;
+    width: 1px;
+    height: 120%;
+    background: linear-gradient(
+        transparent,
+        rgba(214,179,106,.2),
+        transparent
+    );
+    transform: rotate(28deg);
+    filter: blur(3px);
+}
+
+.beam-one {
+    left: 20%;
+    top: -10%;
+    animation: beamMove 10s ease-in-out infinite;
+}
+
+.beam-two {
+    right: 22%;
+    top: -10%;
+    transform: rotate(-25deg);
+    animation: beamMove 13s ease-in-out infinite reverse;
+}
+
+@keyframes beamMove {
+    0%,100% {
+        opacity: .15;
+        transform: translateX(-30px) rotate(28deg);
+    }
+    50% {
+        opacity: .55;
+        transform: translateX(50px) rotate(28deg);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 1100px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    border: 1px solid rgba(214,179,106,.25);
+    border-radius: 100px;
+    background: rgba(255,255,255,.035);
+    backdrop-filter: blur(15px);
+    color: var(--gold-light);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+.eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--gold);
+}
+
+.hero h1 {
+    font-size: clamp(62px, 10vw, 145px);
+    line-height: .83;
+    letter-spacing: -8px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.hero h1 em {
+    display: block;
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+    text-transform: none;
+    font-style: italic;
+    color: var(--gold-light);
+    letter-spacing: -5px;
+}
+
+.hero-sub {
+    max-width: 680px;
+    margin: 35px auto 0;
+    font-size: clamp(16px, 2vw, 20px);
+    line-height: 1.7;
+    color: #aaa7a1;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 16px 27px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: .3px;
+    transition: .35s;
+}
+
+.btn-primary {
+    background: linear-gradient(
+        135deg,
+        #f0d28e,
+        #b48a40
+    );
+    color: #090806;
+    box-shadow:
+        0 10px 45px rgba(214,179,106,.18),
+        inset 0 1px rgba(255,255,255,.7);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 20px 60px rgba(214,179,106,.3);
+}
+
+.btn-secondary {
+    border: 1px solid rgba(255,255,255,.16);
+    color: white;
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(12px);
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,.09);
+}
+
+/* =========================
+   HERO VISUAL
+========================= */
+
+.twist-orbit {
+    position: relative;
+    width: min(760px, 90vw);
+    height: 250px;
+    margin: 70px auto 0;
+}
+
+.story-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(214,179,106,.5),
+        transparent
+    );
+}
+
+.twist-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #f3dca6,
+            #9c702d 42%,
+            #17120a 70%
+        );
+    box-shadow:
+        0 0 40px rgba(214,179,106,.25),
+        0 0 120px rgba(214,179,106,.12);
+    animation: corePulse 4s infinite ease-in-out;
+}
+
+@keyframes corePulse {
+    0%,100% {
+        box-shadow:
+            0 0 40px rgba(214,179,106,.25),
+            0 0 120px rgba(214,179,106,.12);
+    }
+    50% {
+        box-shadow:
+            0 0 70px rgba(214,179,106,.4),
+            0 0 180px rgba(214,179,106,.18);
+    }
+}
+
+.twist-core span {
+    font-size: 12px;
+    font-weight: 900;
+    color: #0a0805;
+    letter-spacing: 2px;
+}
+
+.story-card {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 210px;
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,.09);
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(18px);
+    border-radius: 16px;
+    text-align: left;
+}
+
+.story-card.left {
+    left: 0;
+}
+
+.story-card.right {
+    right: 0;
+}
+
+.story-card small {
+    font-family: "DM Mono", monospace;
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.story-card p {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #bbb;
+}
+
+/* =========================
+   SECTION SYSTEM
+========================= */
+
+section {
+    position: relative;
+    padding: 140px 7vw;
+}
+
+.section-label {
+    color: var(--gold);
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: clamp(42px, 7vw, 90px);
+    line-height: .95;
+    letter-spacing: -4px;
+    max-width: 900px;
+}
+
+.section-title em {
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+    color: var(--gold-light);
+}
+
+.section-copy {
+    max-width: 650px;
+    color: #8e8b86;
+    line-height: 1.8;
+    margin-top: 25px;
+}
+
+/* =========================
+   TWIST ENGINE
+========================= */
+
+.engine-section {
+    background:
+        radial-gradient(
+            circle at 80% 50%,
+            rgba(125,75,23,.12),
+            transparent 35%
+        );
+}
+
+.engine {
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.025);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 30px 100px rgba(0,0,0,.5);
+}
+
+.engine-input {
+    padding: 50px;
+    border-right: 1px solid var(--line);
+}
+
+.engine-result {
+    padding: 50px;
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(214,179,106,.09),
+            transparent 50%
+        );
+}
+
+.engine-label {
+    font-family: "DM Mono", monospace;
+    color: #77736d;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.engine textarea {
+    width: 100%;
+    min-height: 190px;
+    margin-top: 25px;
+    resize: none;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+.engine textarea::placeholder {
+    color: #4f4d49;
+}
+
+.engine-action {
+    width: 100%;
+    padding: 16px;
+    border: 0;
+    border-radius: 10px;
+    background: linear-gradient(
+        135deg,
+        #e8c77f,
+        #9b712f
+    );
+    color: #080706;
+    font-weight: 900;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.engine-action:hover {
+    transform: translateY(-2px);
+}
+
+.result-box {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.result-tag {
+    color: var(--gold);
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+.result-box h3 {
+    font-size: 34px;
+    line-height: 1.1;
+    margin: 18px 0;
+}
+
+.result-box p {
+    color: #85827c;
+    line-height: 1.7;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 70px;
+}
+
+.feature {
+    min-height: 300px;
+    padding: 34px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.015)
+        );
+    position: relative;
+    overflow: hidden;
+    transition: .4s;
+}
+
+.feature:hover {
+    transform: translateY(-8px);
+    border-color: rgba(214,179,106,.35);
+}
+
+.feature-number {
+    font-family: "DM Mono", monospace;
+    color: var(--gold);
+    font-size: 11px;
+}
+
+.feature h3 {
+    margin-top: 80px;
+    font-size: 24px;
+}
+
+.feature p {
+    color: #7e7b76;
+    line-height: 1.7;
+    margin-top: 12px;
+}
+
+.feature-glow {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -70px;
+    top: -70px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(214,179,106,.18),
+        transparent 70%
+    );
+}
+
+/* =========================
+   AUDIENCE
+========================= */
+
+.audience {
+    background: #08080a;
+}
+
+.audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 80px;
+    background: var(--line);
+}
+
+.audience-card {
+    padding: 70px 55px;
+    background: #08080a;
+}
+
+.audience-card h3 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.audience-card h3 span {
+    font-family: "Playfair Display", serif;
+    font-style: italic;
+    color: var(--gold-light);
+}
+
+.audience-card p {
+    color: #85827c;
+    line-height: 1.8;
+    max-width: 500px;
+}
+
+/* =========================
+   CINEMATIC STATEMENT
+========================= */
+
+.statement {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.statement::before {
+    content: "";
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(214,179,106,.13),
+        transparent 65%
+    );
+}
+
+.statement-inner {
+    position: relative;
+    z-index: 2;
+}
+
+.statement h2 {
+    font-size: clamp(45px, 8vw, 110px);
+    line-height: .9;
+    letter-spacing: -5px;
+    max-width: 1100px;
+}
+
+.statement h2 em {
+    color: var(--gold-light);
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 7vw;
+    display: flex;
+    justify-content: space-between;
+    color: #5e5c58;
+    font-size: 12px;
+}
+
+.footer-logo {
+    color: white;
+    font-weight: 900;
+}
+
+.footer-logo span {
+    color: var(--gold);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 900px) {
+
+    .nav-links {
+        display: none;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    .hero h1 {
+        letter-spacing: -4px;
     }
 
-    body {
-      background-color: var(--bg-dark);
-      color: #FFFFFF;
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      /* HD Atmospheric Film Still Background */
-      background-image: 
-        radial-gradient(circle at 50% 20%, rgba(229, 9, 20, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
-        linear-gradient(to bottom, rgba(5,5,8,0.7) 0%, rgba(5,5,8,0.95) 100%),
-        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+    .twist-orbit {
+        height: 360px;
     }
 
-    /* Top Navigation Header */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 25px 8%;
-      background: rgba(5, 5, 8, 0.6);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    .story-card {
+        width: 170px;
     }
 
-    .brand-logo {
-      font-family: 'Cinzel', serif;
-      font-size: 1.8rem;
-      font-weight: 900;
-      letter-spacing: 6px;
-      color: #FFF;
-      text-transform: uppercase;
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    .story-card.left {
+        top: 25%;
     }
 
-    .brand-logo span {
-      color: var(--hollywood-red);
-      text-shadow: 0 0 20px var(--red-glow);
+    .story-card.right {
+        top: 75%;
     }
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+    .twist-core {
+        width: 110px;
+        height: 110px;
     }
 
-    .credit-badge {
-      background: rgba(255, 215, 0, 0.08);
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      padding: 8px 18px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      box-shadow: 0 0 15px var(--gold-glow);
-      text-transform: uppercase;
+    .engine {
+        grid-template-columns: 1fr;
     }
 
-    .btn-buy {
-      background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
-      color: #FFF;
-      text-decoration: none;
-      padding: 10px 22px;
-      border-radius: 30px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
-      transition: all 0.3s ease;
+    .engine-input {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
     }
 
-    .btn-buy:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(40, 167, 69, 0.7);
+    .features {
+        grid-template-columns: 1fr;
     }
 
-    /* Main Container */
-    .hero-container {
-      max-width: 900px;
-      margin: 60px auto 100px;
-      padding: 0 20px;
-      text-align: center;
+    .audience-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+
+    nav {
+        padding: 0 20px;
     }
 
-    .hero-title {
-      font-family: 'Cinzel', serif;
-      font-size: 3.5rem;
-      font-weight: 900;
-      letter-spacing: 8px;
-      text-transform: uppercase;
-      line-height: 1.1;
-      margin-bottom: 15px;
-      background: linear-gradient(180deg, #FFFFFF 30%, #888888 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      drop-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    .hero {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
-    .hero-subtitle {
-      font-size: 1.1rem;
-      color: #A0A0B0;
-      font-weight: 300;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 40px;
+    .hero h1 {
+        font-size: 62px;
+        letter-spacing: -4px;
     }
 
-    /* Glossy Glassmorphic Card */
-    .studio-card {
-      background: rgba(15, 15, 22, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
-      padding: 40px;
-      backdrop-filter: blur(25px);
-      box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.9),
-        0 0 40px rgba(229, 9, 20, 0.1);
-      position: relative;
+    .hero h1 em {
+        letter-spacing: -2px;
     }
 
-    .input-group {
-      margin-bottom: 30px;
-      text-align: left;
+    .hero-sub {
+        font-size: 15px;
     }
 
-    <a href="https://buy.stripe.com/test_8x2fZj0uE5SXd83gg7frW00" target="_blank" class="btn-buy">💳 Get 50 Credits</a>
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      display: block;
+    section {
+        padding: 90px 22px;
     }
 
-    textarea {
-      width: 100%;
-      height: 120px;
-      background: rgba(5, 5, 8, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      padding: 18px;
-      color: #FFF;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1rem;
-      resize: none;
-      transition: all 0.3s ease;
+    .section-title {
+        letter-spacing: -2px;
     }
 
-    textarea:focus {
-      outline: none;
-      border-color: var(--hollywood-red);
-      box-shadow: 0 0 20px var(--red-glow);
+    .engine-input,
+    .engine-result {
+        padding: 30px;
     }
 
-    .btn-generate {
-      width: 100%;
-      padding: 20px;
-      background: linear-gradient(135deg, #E50914 0%, #8B0000 100%);
-      border: none;
-      border-radius: 12px;
-      color: #FFF;
-      font-family: 'Cinzel', serif;
-      font-size: 1.2rem;
-      font-weight: 900;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 0 10px 30px var(--red-glow);
-      transition: all 0.3s ease;
+    .audience-card {
+        padding: 45px 30px;
     }
 
-    .btn-generate:hover {
-      transform: scale(1.02);
-      box-shadow: 0 15px 40px rgba(229, 9, 20, 0.9);
+    .audience-card h3 {
+        font-size: 34px;
     }
 
-    /* Screenplay Output Card */
-    .screenplay-output {
-      margin-top: 40px;
-      background: #FDFBF7; /* Authentic Screenplay Paper */
-      color: #111;
-      padding: 40px;
-      border-radius: 8px;
-      font-family: 'Courier Prime', monospace;
-      text-align: left;
-      line-height: 1.6;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-      display: none; /* Shown dynamically via JS */
+    footer {
+        flex-direction: column;
+        gap: 10px;
     }
-
-    .screenplay-header {
-      font-weight: bold;
-      text-transform: uppercase;
-      border-bottom: 2px solid #111;
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-      letter-spacing: 2px;
-    }
-  </style>
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Header Navigation -->
-  <header>
-    <div class="brand-logo">PLOT<span>TWIST</span></div>
-    <div class="nav-actions">
-      <div class="credit-badge">⚡ Credits: <span id="user-credits">5</span></div>
-      <a href="YOUR_STRIPE_LINK_HERE" target="_blank" class="btn-buy">💳 Get 50 Credits</a>
+<!-- =========================
+     NAV
+========================= -->
+
+<nav>
+
+    <div class="logo">
+        PLOT<span>TWIST</span>
     </div>
-  </header>
 
-  <!-- Hero Content Area -->
-  <div class="hero-container">
-    <h1 class="hero-title">Unscripted Brilliance</h1>
-    <p class="hero-subtitle">The AI Twist Engine Built For Screenwriters & Producers</p>
-
-    <div class="studio-card">
-      <div class="input-group">
-        <label class="input-label">Pitch / Scene Setup</label>
-        <textarea id="prompt-input" placeholder="e.g., A detective uncovers a locked safe in a sunken submarine, but inside is a recent photograph of himself..."></textarea>
-      </div>
-
-      <button class="btn-generate" onclick="generateTwist()">⚡ GENERATE BLOCKBUSTER TWIST</button>
-
-      <!-- Output Display Box -->
-      <div id="output-box" class="screenplay-output">
-        <div class="screenplay-header">EXT. HOLLYWOOD SOUNDSTAGE - NIGHT</div>
-        <p id="output-text">Your script plot twist will appear here in authentic screenplay format...</p>
-      </div>
+    <div class="nav-links">
+        <a href="#engine">Twist Engine</a>
+        <a href="#features">Capabilities</a>
+        <a href="#audience">For Creators</a>
+        <a href="#engine" class="nav-cta">Try PlotTwist</a>
     </div>
-  </div>
 
-  <script>
-    // Paste your standard endpoint JavaScript logic here
-    async function generateTwist() {
-      const prompt = document.getElementById('prompt-input').value;
-      const outputBox = document.getElementById('output-box');
-      const outputText = document.getElementById('output-text');
+</nav>
 
-      if (!prompt) {
-        alert("Please enter a scene setup first!");
+
+<!-- =========================
+     HERO
+========================= -->
+
+<header class="hero">
+
+    <div class="hero-light"></div>
+    <div class="light-beam beam-one"></div>
+    <div class="light-beam beam-two"></div>
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            AI STORY INTELLIGENCE
+        </div>
+
+        <h1>
+            Don't write
+            <em>the obvious.</em>
+        </h1>
+
+        <p class="hero-sub">
+            PlotTwist is the AI Twist Engine built for screenwriters
+            and producers who want stories that go somewhere
+            nobody saw coming.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#engine" class="btn btn-primary">
+                FIND MY TWIST →
+            </a>
+
+            <a href="#engine" class="btn btn-secondary">
+                SEE THE ENGINE
+            </a>
+
+        </div>
+
+        <div class="twist-orbit">
+
+            <div class="story-line"></div>
+
+            <div class="story-card left">
+
+                <small>THE EXPECTED</small>
+
+                <p>
+                    A detective investigates
+                    a mysterious disappearance.
+                </p>
+
+            </div>
+
+            <div class="twist-core">
+                <span>TWIST</span>
+            </div>
+
+            <div class="story-card right">
+
+                <small>THE UNEXPECTED</small>
+
+                <p>
+                    The detective isn't looking
+                    for the missing person.
+                    He's looking for himself.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<section>
+
+    <div class="section-label">
+        01 / THE PROBLEM
+    </div>
+
+    <h2 class="section-title">
+        Your audience has seen
+        <em>the obvious.</em>
+    </h2>
+
+    <p class="section-copy">
+        Great stories don't simply move from beginning to end.
+        They surprise. They reverse expectations. They reveal
+        something hiding underneath the story you thought you
+        were telling.
+    </p>
+
+</section>
+
+
+<!-- =========================
+     ENGINE
+========================= -->
+
+<section class="engine-section" id="engine">
+
+    <div class="section-label">
+        02 / THE TWIST ENGINE
+    </div>
+
+    <h2 class="section-title">
+        Give us the story.
+        <em>We'll challenge it.</em>
+    </h2>
+
+    <p class="section-copy">
+        Feed PlotTwist your premise, scene, character relationship
+        or story problem. The engine explores alternative narrative
+        directions designed to challenge predictable outcomes.
+    </p>
+
+
+    <div class="engine">
+
+        <div class="engine-input">
+
+            <div class="engine-label">
+                YOUR STORY
+            </div>
+
+            <textarea
+                id="storyInput"
+                placeholder="A detective returns home after ten years to investigate his sister's disappearance..."
+            ></textarea>
+
+            <button
+                class="engine-action"
+                onclick="generateTwist()"
+            >
+                FIND THE TWIST →
+            </button>
+
+        </div>
+
+
+        <div class="engine-result">
+
+            <div class="result-box">
+
+                <div class="result-tag">
+                    PLOTTWIST OUTPUT
+                </div>
+
+                <h3 id="twistOutput">
+                    What if the person
+                    he's searching for...
+                    is searching for him?
+                </h3>
+
+                <p id="twistDescription">
+                    PlotTwist challenges the obvious direction
+                    and introduces a reversal that changes the
+                    emotional stakes of the entire investigation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CAPABILITIES
+========================= -->
+
+<section id="features">
+
+    <div class="section-label">
+        03 / WHAT IT DOES
+    </div>
+
+    <h2 class="section-title">
+        Don't settle for
+        <em>predictable.</em>
+    </h2>
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="feature-glow"></div>
+
+            <div class="feature-number">
+                001
+            </div>
+
+            <h3>
+                Break Predictability
+            </h3>
+
+            <p>
+                Identify the obvious narrative path
+                and explore alternatives before your
+                audience gets there first.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-glow"></div>
+
+            <div class="feature-number">
+                002
+            </div>
+
+            <h3>
+                Discover Reversals
+            </h3>
+
+            <p>
+                Explore character betrayals,
+                hidden motives, revelations and
+                narrative reversals.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-glow"></div>
+
+            <div class="feature-number">
+                003
+            </div>
+
+            <h3>
+                Strengthen Your Reveal
+            </h3>
+
+            <p>
+                Find the reveal that makes the
+                audience rethink everything
+                they thought they knew.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     AUDIENCE
+========================= -->
+
+<section class="audience" id="audience">
+
+    <div class="section-label">
+        04 / BUILT FOR THE INDUSTRY
+    </div>
+
+    <h2 class="section-title">
+        For people who
+        <em>make stories matter.</em>
+    </h2>
+
+
+    <div class="audience-grid">
+
+        <div class="audience-card">
+
+            <h3>
+                Screen<span>writers.</span>
+            </h3>
+
+            <p>
+                Stuck on Act II? Can't find the ending?
+                Something feels too predictable?
+                Use PlotTwist as a creative pressure test
+                for your story.
+            </p>
+
+        </div>
+
+
+        <div class="audience-card">
+
+            <h3>
+                <span>Producers.</span>
+            </h3>
+
+            <p>
+                Stress-test concepts before development.
+                Explore alternative directions.
+                Challenge character motivations.
+                Discover the story hiding underneath
+                the pitch.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PROCESS
+========================= -->
+
+<section>
+
+    <div class="section-label">
+        05 / THE PROCESS
+    </div>
+
+    <h2 class="section-title">
+        Input.
+        <em>Disrupt.</em>
+        Reveal.
+    </h2>
+
+    <div class="features">
+
+        <div class="feature">
+            <div class="feature-number">01 / INPUT</div>
+            <h3>Your Story</h3>
+            <p>
+                Start with a premise, scene, character,
+                conflict or unfinished idea.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-number">02 / DISRUPT</div>
+            <h3>Challenge It</h3>
+            <p>
+                PlotTwist explores possibilities beyond
+                the most obvious narrative route.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-number">03 / REVEAL</div>
+            <h3>Find the Moment</h3>
+            <p>
+                Discover the reversal, revelation or
+                unexpected direction worth exploring.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FINAL STATEMENT
+========================= -->
+
+<section class="statement">
+
+    <div class="statement-inner">
+
+        <div class="section-label">
+            THE QUESTION
+        </div>
+
+        <h2>
+            Your audience thinks
+            they know what happens next.
+            <em>Prove them wrong.</em>
+        </h2>
+
+        <div class="hero-buttons">
+
+            <a href="#engine" class="btn btn-primary">
+                ENTER PLOTTWIST →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        PLOT<span>TWIST</span>
+    </div>
+
+    <div>
+        AI STORY INTELLIGENCE
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     INTERACTION
+========================= -->
+
+<script>
+
+function generateTwist() {
+
+    const input = document.getElementById("storyInput");
+    const output = document.getElementById("twistOutput");
+    const description = document.getElementById("twistDescription");
+
+    if (!input.value.trim()) {
+
+        output.innerHTML =
+            "Give us a story.<br>We'll find what's hiding inside it.";
+
+        description.innerHTML =
+            "Enter a premise, character conflict or story problem above.";
+
         return;
-      }
-
-      outputBox.style.display = "block";
-      outputText.innerText = "CRAFTING CINEMATIC TWIST...";
-
-      try {
-        const response = await fetch('https://plot-twist-3csj.onrender.com/api/generate-script', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: prompt })
-        });
-
-        const data = await response.json();
-        if (data.twist) {
-          outputText.innerText = data.twist;
-        } else {
-          outputText.innerText = "Scene twist generated. Check your console/database output.";
-        }
-      } catch (err) {
-        outputText.innerText = "Error generating twist. Ensure backend is active.";
-      }
     }
-  </script>
+
+    const twists = [
+
+        {
+            title:
+                "What if the person he's searching for... is searching for him?",
+            description:
+                "The investigation becomes personal when the missing person appears to have deliberately constructed a trail designed to lead the protagonist exactly where she wants him."
+        },
+
+        {
+            title:
+                "What if the disappearance was never the crime?",
+            description:
+                "The investigation uncovers evidence suggesting that the disappearance was staged to hide a much larger secret."
+        },
+
+        {
+            title:
+                "What if he already knows the truth?",
+            description:
+                "The protagonist slowly discovers that his investigation may actually be an elaborate attempt to convince himself of a version of events he knows is false."
+        },
+
+        {
+            title:
+                "What if the suspect is protecting him?",
+            description:
+                "The person who appears to be obstructing the investigation may actually be preventing the protagonist from discovering something that would destroy him."
+        }
+
+    ];
+
+    const random =
+        twists[Math.floor(Math.random() * twists.length)];
+
+    output.style.opacity = "0";
+    description.style.opacity = "0";
+
+    setTimeout(() => {
+
+        output.innerHTML = random.title;
+        description.innerHTML = random.description;
+
+        output.style.transition = "opacity .6s";
+        description.style.transition = "opacity .6s";
+
+        output.style.opacity = "1";
+        description.style.opacity = "1";
+
+    }, 400);
+
+}
+
+</script>
+
 </body>
 </html>
